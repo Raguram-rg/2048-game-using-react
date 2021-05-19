@@ -60,7 +60,7 @@ function App() {
         setContinueGame(localContinueGame)
       }
     }
-    saveLocalGrid()
+    saveLocalGrid();
   },[])
 
   useEffect(() =>{
@@ -284,7 +284,6 @@ function App() {
 
 
   const checkIfGameOver = () => {
-    console.log("checkifgameover")
     let checker = swipeLeft(true);
 
     if (JSON.stringify(data) !== JSON.stringify(checker)) {
@@ -360,10 +359,10 @@ function App() {
                      setGameWon={setGameWon}
                      setContinueGame={setContinueGame} />}
         <Swipe 
-         onSwipeDown={() => swipeDown()} 
-         onSwipeLeft={() => swipeLeft()} 
-         onSwipeRight={() => swipeRight()}
-         onSwipeUp={() => swipeUp()}>
+         onSwipeDown={swipeRight} 
+         onSwipeLeft={swipeLeft} 
+         onSwipeRight={swipeRight}
+         onSwipeUp={swipeUp}>
           {data.map((row, index1) => {
               return(
                 <div style={{display:'flex'}} key={index1}>
