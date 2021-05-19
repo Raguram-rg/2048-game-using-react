@@ -1,0 +1,14 @@
+.animate{
+    animation-name: example;
+    animation-duration:0.5s;
+    animation-iteration-count:infinite;
+
+}
+
+@keyframes example {
+    0%{transform: skewX(0)}
+    50%{transform: skewX(10deg)}
+    100%{transform: skewX(-10deg);}
+}
+
+

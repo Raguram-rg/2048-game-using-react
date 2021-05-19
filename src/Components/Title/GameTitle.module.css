@@ -1,0 +1,7 @@
+.title{
+    font-size: 80px;
+    display: flex;
+    color: rgb(255, 145, 0);
+    width: max-content;
+    margin: auto;
+}

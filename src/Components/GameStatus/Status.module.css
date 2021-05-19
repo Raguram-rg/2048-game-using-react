@@ -1,0 +1,99 @@
+.gameover,.gamewon{
+    color:rgb(255,255,255,1);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.gameover{
+    background-color: rgba(7, 7, 7, 0.753);
+}
+
+.gamewon{
+    background-color: rgb(247, 247, 142, 0.5);
+}
+  
+.text{
+    font-size: 40px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+}
+
+.gameover .text{
+    color: rgb(255, 255, 255);
+}
+
+.gamewon .text{
+    color: black;
+}
+
+.smileysad,
+.smileyhappy {
+    position: absolute;
+    left: 40%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: yellow;
+    width: 38px;
+    border: 3px solid #181818;
+    color:#181818;
+    padding: 0 0 8px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-family: "comic sans ms";
+    font-weight: bold;
+    z-index: 1;
+    transform: rotate(90deg);
+}
+
+.continuebtn{
+   position: inherit;
+   bottom: 25%;
+   left: 20%;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   padding:0.7rem;
+   border-radius: 5px;
+   background: #2803f7;
+   color: white;
+}
+
+.continuebtn:hover{
+    box-shadow: 0 0 5px #4729f1;
+}
+
+.newbtn{
+    position: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding:0.7rem;
+    border-radius: 5px;
+    background: #f70303;
+    color: white;
+ }
+
+ .newbtn:hover{
+    box-shadow: 0 0 5px #eb4d26;
+}
+
+.gameover .newbtn{
+    right:38%;
+    bottom: 20%;
+}
+
+.gamewon .newbtn{
+    right: 20%;
+    bottom: 25%;
+}
