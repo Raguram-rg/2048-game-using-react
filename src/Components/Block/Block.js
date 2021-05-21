@@ -12,7 +12,6 @@ const Block = ({digit,gameOver,gameWon}) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: 36,
             fontWeight: "650",
             borderRadius:8,
             color:"white", 
