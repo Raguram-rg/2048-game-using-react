@@ -4,9 +4,9 @@ import Block from './Components/Block/Block.js';
 import cloneDeep from "lodash.clonedeep";
 import {useEvent} from "./util.js";
 import GameTitle from './Components/Title/GameTitle.js'
-import Scores from './Components/Scores/Scores.js';
-import Swipe from 'react-easy-swipe';
-import { Gameover, Gamewon } from './Components/GameStatus/Status';
+import Scores from './Components/Scores/Scores.js'
+import { Gameover, Gamewon } from './Components/GameStatus/Status'
+import Swipe from 'react-easy-swipe'
 
 function App() {
 
@@ -350,7 +350,12 @@ function App() {
       <div style={{marginTop:'13px'}}> 
         <button onClick={resetGame} className="newgamebtn">New Game</button>
       </div>
+      <Swipe onSwipedDown = {() => swipeDown()}
+            onSwipedLeft = {() => swipeLeft()}
+            onSwipedRight = {() => swipeRight()}
+            onSwipedUp = {() => swipeUp()}>
       <div className="grid">
+       <div>
         {gameOver && <Gameover scores={scores}
                       resetGame={resetGame} />}
         {gameWon && <Gamewon scores={scores}
@@ -358,22 +363,18 @@ function App() {
                      resetGame={resetGame}
                      setGameWon={setGameWon}
                      setContinueGame={setContinueGame} />}
-        <Swipe 
-         onSwipeDown={swipeRight} 
-         onSwipeLeft={swipeLeft} 
-         onSwipeRight={swipeRight}
-         onSwipeUp={swipeUp}>
-          {data.map((row, index1) => {
-              return(
-                <div style={{display:'flex'}} key={index1}>
-                  {row.map((digit, index2) => (
-                    <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
-                  ))}
-                </div>
-              );
-            })}
-        </Swipe>
+           {data.map((row, index1) => {
+                return(
+                  <div style={{display:'flex'}} key={index1}>
+                    {row.map((digit, index2) => (
+                      <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
+                    ))}
+                  </div>
+                );
+            })};
+        </div>
       </div>
+      </Swipe>
     </div>
   );
 }
