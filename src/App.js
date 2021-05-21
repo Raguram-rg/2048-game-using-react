@@ -6,7 +6,8 @@ import {useEvent} from "./util.js";
 import GameTitle from './Components/Title/GameTitle.js'
 import Scores from './Components/Scores/Scores.js'
 import { Gameover, Gamewon } from './Components/GameStatus/Status'
-import Swipe from 'react-easy-swipe'
+import { useSwipeable } from 'react-swipeable';
+
 
 function App() {
 
@@ -30,6 +31,17 @@ function App() {
   const [continueGame, setContinueGame] = useState(false);
 
   var score = scores;
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => swipeLeft(),
+    onSwipedRight: () => swipeRight(),
+    onSwipedUp: () => swipeUp(),
+    onSwipedDown: () => swipeDown(),
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
+    trackMouse:true
+ })
+
 
   useEffect(() =>{
     
@@ -75,43 +87,45 @@ function App() {
   },[data])
 
   // left arrow key
-  const swipeLeft = (check) => {
+   const swipeLeft = (check) => {
     let oldGrid = data;
     let newGrid = cloneDeep(data);
 
-    for (let i = 0; i < 4; i++) {
-      let b = newGrid[i];
-      let slow = 0;
-      let fast = 1;
-      while (slow < 4) {
-        if (fast === 4) {
-          fast = slow + 1;
-          slow++;
-          continue;
-        }
-        if (b[slow] === 0 && b[fast] === 0) {
-          fast++;
-        } else if (b[slow] === 0 && b[fast] !== 0) {
-          b[slow] = b[fast];
-          b[fast] = 0;
-          fast++;
-        } else if (b[slow] !== 0 && b[fast] === 0) {
-          fast++;
-        } else if (b[slow] !== 0 && b[fast] !== 0) {
-          if (b[slow] === b[fast]) {
-            b[slow] = b[slow] + b[fast];
-            score += b[slow];
+    if(!gameWon){
+      for (let i = 0; i < 4; i++) {
+        let b = newGrid[i];
+        let slow = 0;
+        let fast = 1;
+        while (slow < 4) {
+          if (fast === 4) {
+            fast = slow + 1;
+            slow++;
+            continue;
+          }
+          if (b[slow] === 0 && b[fast] === 0) {
+            fast++;
+          } else if (b[slow] === 0 && b[fast] !== 0) {
+            b[slow] = b[fast];
             b[fast] = 0;
-            fast = slow + 1;
-            slow++;
-          } else {
-            slow++;
-            fast = slow + 1;
+            fast++;
+          } else if (b[slow] !== 0 && b[fast] === 0) {
+            fast++;
+          } else if (b[slow] !== 0 && b[fast] !== 0) {
+            if (b[slow] === b[fast]) {
+              b[slow] = b[slow] + b[fast];
+              score += b[slow];
+              b[fast] = 0;
+              fast = slow + 1;
+              slow++;
+            } else {
+              slow++;
+              fast = slow + 1;
+            }
           }
         }
       }
+      return setGrid(oldGrid, newGrid, check)
     }
-    return setGrid(oldGrid, newGrid, check)
   };
 
   //right arrow key
@@ -119,11 +133,12 @@ function App() {
     let oldGrid = data;
     let newGrid = cloneDeep(data);
 
-    for (let i = 3; i >= 0; i--) {
-      let b = newGrid[i];
-      let slow = b.length - 1;
-      let fast = slow - 1;
-      while (slow > 0) {
+    if(!gameWon){      
+     for (let i = 3; i >= 0; i--) {
+       let b = newGrid[i];
+       let slow = b.length - 1;
+       let fast = slow - 1;
+       while (slow > 0) {
         if (fast === -1) {
           fast = slow - 1;
           slow--;
@@ -150,84 +165,91 @@ function App() {
           }
         }
       }
+     }
+     return setGrid(oldGrid, newGrid, check)
     }
-    return setGrid(oldGrid, newGrid, check)
   };
 
   //down arrow key
   const swipeDown = (check) => {
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
-    for (let i = 3; i >= 0; i--) {
-      let slow = b.length - 1;
-      let fast = slow - 1;
-      while (slow > 0) {
-        if (fast === -1) {
-          fast = slow - 1;
-          slow--;
-          continue;
-        }
-        if (b[slow][i] === 0 && b[fast][i] === 0) {
-          fast--;
-        } else if (b[slow][i] === 0 && b[fast][i] !== 0) {
-          b[slow][i] = b[fast][i];
-          b[fast][i] = 0;
-          fast--;
-        } else if (b[slow][i] !== 0 && b[fast][i] === 0) {
-          fast--;
-        } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
-          if (b[slow][i] === b[fast][i]) {
-            b[slow][i] = b[slow][i] + b[fast][i];
-            score += b[slow][i];
+
+    if(!gameWon){
+      for (let i = 3; i >= 0; i--) {
+        let slow = b.length - 1;
+        let fast = slow - 1;
+        while (slow > 0) {
+          if (fast === -1) {
+            fast = slow - 1;
+            slow--;
+            continue;
+          }
+          if (b[slow][i] === 0 && b[fast][i] === 0) {
+            fast--;
+          } else if (b[slow][i] === 0 && b[fast][i] !== 0) {
+            b[slow][i] = b[fast][i];
             b[fast][i] = 0;
-            fast = slow - 1;
-            slow--;
-          } else {
-            slow--;
-            fast = slow - 1;
+            fast--;
+          } else if (b[slow][i] !== 0 && b[fast][i] === 0) {
+            fast--;
+          } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
+            if (b[slow][i] === b[fast][i]) {
+              b[slow][i] = b[slow][i] + b[fast][i];
+              score += b[slow][i];
+              b[fast][i] = 0;
+              fast = slow - 1;
+              slow--;
+            } else {
+              slow--;
+              fast = slow - 1;
+            }
           }
         }
       }
+      return setGrid(oldData, b, check)
     }
-    return setGrid(oldData, b, check)
   };
 
   //upper arrow key
   const swipeUp = (check) => {
     let b = cloneDeep(data);
     let oldGrid = JSON.parse(JSON.stringify(data));
-    for (let i = 0; i < 4; i++) {
-      let slow = 0;
-      let fast = 1;
-      while (slow < 4) {
-        if (fast === 4) {
-          fast = slow + 1;
-          slow++;
-          continue;
-        }
-        if (b[slow][i] === 0 && b[fast][i] === 0) {
-          fast++;
-        } else if (b[slow][i] === 0 && b[fast][i] !== 0) {
-          b[slow][i] = b[fast][i];
-          b[fast][i] = 0;
-          fast++;
-        } else if (b[slow][i] !== 0 && b[fast][i] === 0) {
-          fast++;
-        } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
-          if (b[slow][i] === b[fast][i]) {
-            b[slow][i] = b[slow][i] + b[fast][i];
-            score += b[slow][i];
+
+    if(!gameWon){
+      for (let i = 0; i < 4; i++) {
+        let slow = 0;
+        let fast = 1;
+        while (slow < 4) {
+          if (fast === 4) {
+            fast = slow + 1;
+            slow++;
+            continue;
+          }
+          if (b[slow][i] === 0 && b[fast][i] === 0) {
+            fast++;
+          } else if (b[slow][i] === 0 && b[fast][i] !== 0) {
+            b[slow][i] = b[fast][i];
             b[fast][i] = 0;
-            fast = slow + 1;
-            slow++;
-          } else {
-            slow++;
-            fast = slow + 1;
+            fast++;
+          } else if (b[slow][i] !== 0 && b[fast][i] === 0) {
+            fast++;
+          } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
+            if (b[slow][i] === b[fast][i]) {
+              b[slow][i] = b[slow][i] + b[fast][i];
+              score += b[slow][i];
+              b[fast][i] = 0;
+              fast = slow + 1;
+              slow++;
+            } else {
+              slow++;
+              fast = slow + 1;
+            }
           }
         }
       }
+      return setGrid(oldGrid, b, check)
     }
-    return setGrid(oldGrid, b, check)
   };
 
   const setGrid = (oldGrid, newGrid, check) => {
@@ -309,7 +331,7 @@ function App() {
     return true; 
 };
   
-  useEvent("keydown", handleKeyDown, gameWon, checkIfWon);
+  useEvent("keydown", handleKeyDown, checkIfWon);
 
   //adding numbers randomly
   const addNumber = (newGrid) => {
@@ -340,8 +362,7 @@ function App() {
 
     setData(newGrid)
 
-  }
-
+  };
 
   return (
     <div className="game"> 
@@ -350,12 +371,7 @@ function App() {
       <div style={{marginTop:'13px'}}> 
         <button onClick={resetGame} className="newgamebtn">New Game</button>
       </div>
-      <Swipe onSwipedDown = {() => swipeDown()}
-            onSwipedLeft = {() => swipeLeft()}
-            onSwipedRight = {() => swipeRight()}
-            onSwipedUp = {() => swipeUp()}>
-      <div className="grid">
-       <div>
+      <div {...handlers} className="grid">
         {gameOver && <Gameover scores={scores}
                       resetGame={resetGame} />}
         {gameWon && <Gamewon scores={scores}
@@ -363,20 +379,18 @@ function App() {
                      resetGame={resetGame}
                      setGameWon={setGameWon}
                      setContinueGame={setContinueGame} />}
-           {data.map((row, index1) => {
-                return(
-                  <div style={{display:'flex'}} key={index1}>
-                    {row.map((digit, index2) => (
-                      <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
-                    ))}
-                  </div>
-                );
-            })};
-        </div>
+        {data.map((row, index1) => {
+            return(
+               <div style={{display:'flex'}} key={index1}>
+                  {row.map((digit, index2) => (
+                     <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
+                  ))}
+               </div>
+            )
+        })}
       </div>
-      </Swipe>
     </div>
-  );
+  )
 }
 
 export default App;

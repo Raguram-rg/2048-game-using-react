@@ -16,7 +16,6 @@ const Scores = ({scores,best}) => {
             </div>
         </div>
       </>
-
     );
 }
 

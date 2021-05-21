@@ -15,10 +15,10 @@ export const Gameover = ({scores, resetGame}) => {
         );
 }
 
-const continueAfterWon = async (continueGame, setGameWon, setContinueGame) => {
+const continueAfterWon = (continueGame, setGameWon, setContinueGame) => {
 
   setGameWon(false);
-  await setContinueGame(true);
+  setContinueGame(true);
  
 };
 
