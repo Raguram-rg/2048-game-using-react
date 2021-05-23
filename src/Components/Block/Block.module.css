@@ -1,9 +1,7 @@
 .animate{
-    font-size: 36px;
     animation-name: example;
     animation-duration:0.5s;
     animation-iteration-count:infinite;
-
 }
 
 @keyframes example {
@@ -12,9 +10,13 @@
     100%{transform: skewX(-10deg);}
 }
 
+.size{
+    font-size: 33px;
+}
+
 @media screen and (max-width:520px) {
-    .animate{
+    .size{
         font-size: 26px;
     }
-  }
+}
 

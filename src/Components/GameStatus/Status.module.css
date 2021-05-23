@@ -82,7 +82,7 @@
     border-radius: 5px;
     background: #f70303;
     color: white;
- }
+}
 
  .newbtn:hover{
     box-shadow: 0 0 5px #eb4d26;
@@ -96,4 +96,10 @@
 .gamewon .newbtn{
     right: 20%;
     bottom: 25%;
+}
+
+@media screen and (max-width:520px) {
+    .newbtn,.continuebtn{
+        padding: 0.5rem;
+    }   
 }

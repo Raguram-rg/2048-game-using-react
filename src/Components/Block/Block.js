@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './Block.module.css'
+import cx from 'classnames'
 
 
-const Block = ({digit,gameOver,gameWon}) => {
+const Block = ({digit, gameOver, gameWon}) => {
 
     const style = {
         blockStyle: {
@@ -14,8 +15,7 @@ const Block = ({digit,gameOver,gameWon}) => {
             alignItems: "center",
             fontWeight: "650",
             borderRadius:8,
-            color:"white", 
-            maxWidth:540
+            color:"white",
         }
     }
 
@@ -52,7 +52,7 @@ const Block = ({digit,gameOver,gameWon}) => {
         <div style={{...style.blockStyle,
         background:blockColor(digit),
         }}>
-            <div className={(gameOver || gameWon) ? "" : `${styles.animate}`}>
+            <div className={(gameOver || gameWon) ? styles.size : cx(styles.animate, styles.size)}>
                {digit !== 0 ? digit:""} 
             </div>
         </div>

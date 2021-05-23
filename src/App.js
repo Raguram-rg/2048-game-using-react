@@ -290,9 +290,7 @@ function App() {
       default:
         break;
       }
-      let gameover = checkIfGameOver()
-      if(gameover)
-         setGameOver(true)
+      console.log('handlekeydown')
   };
 
   const checkIfWon = () => {
@@ -329,9 +327,9 @@ function App() {
       return false;
     }
     return true; 
-};
+  };
   
-  useEvent("keydown", handleKeyDown, checkIfWon);
+  useEvent("keydown", handleKeyDown, checkIfWon, checkIfGameOver, setGameOver);
 
   //adding numbers randomly
   const addNumber = (newGrid) => {
@@ -383,7 +381,7 @@ function App() {
             return(
                <div style={{display:'flex'}} key={index1}>
                   {row.map((digit, index2) => (
-                     <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
+                       <Block digit={digit} key={index2} gameOver={gameOver} gameWon={gameWon} />
                   ))}
                </div>
             )
