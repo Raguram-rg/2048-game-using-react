@@ -58,6 +58,7 @@ function App() {
         localStorage.setItem('scores',JSON.stringify(0))
         localStorage.setItem('best',JSON.stringify(0))
         localStorage.setItem('continuegame',JSON.stringify(false))
+        localStorage.setItem('gameover',JSON.stringify(false))
       }
       else
       {
@@ -65,11 +66,13 @@ function App() {
         let localScores = JSON.parse(localStorage.getItem('scores'))
         let initalBest = JSON.parse(localStorage.getItem('best'))
         let localContinueGame = JSON.parse(localStorage.getItem('continuegame'))
+        let localGameOver = JSON.parse(localStorage.getItem('gameover'))
 
         setData(localDatas)
         setScores(localScores)
         setBest(initalBest)
         setContinueGame(localContinueGame)
+        setGameOver(localGameOver)
       }
     }
     saveLocalGrid();
@@ -82,6 +85,8 @@ function App() {
         localStorage.setItem('scores',JSON.stringify(scores))
         localStorage.setItem('best',JSON.stringify(best))
         localStorage.setItem('continuegame',JSON.stringify(continueGame))
+        localStorage.setItem('gameover',JSON.stringify(gameOver))
+
     };
     getLocalGrid();
   },[data])
@@ -115,8 +120,8 @@ function App() {
               b[slow] = b[slow] + b[fast];
               score += b[slow];
               b[fast] = 0;
-              fast = slow + 1;
               slow++;
+              fast = slow + 1;
             } else {
               slow++;
               fast = slow + 1;
@@ -157,8 +162,8 @@ function App() {
             b[slow] = b[slow] + b[fast];
             score += b[slow];
             b[fast] = 0;
-            fast = slow - 1;
             slow--;
+            fast = slow - 1;
           } else {
             slow--;
             fast = slow - 1;
@@ -198,8 +203,8 @@ function App() {
               b[slow][i] = b[slow][i] + b[fast][i];
               score += b[slow][i];
               b[fast][i] = 0;
-              fast = slow - 1;
               slow--;
+              fast = slow - 1;
             } else {
               slow--;
               fast = slow - 1;
@@ -239,8 +244,8 @@ function App() {
               b[slow][i] = b[slow][i] + b[fast][i];
               score += b[slow][i];
               b[fast][i] = 0;
-              fast = slow + 1;
               slow++;
+              fast = slow + 1;
             } else {
               slow++;
               fast = slow + 1;
@@ -290,7 +295,10 @@ function App() {
       default:
         break;
       }
-      console.log('handlekeydown')
+
+      let gameover = checkIfGameOver()
+      if(gameover)
+           setGameOver(gameover)
   };
 
   const checkIfWon = () => {
@@ -329,7 +337,7 @@ function App() {
     return true; 
   };
   
-  useEvent("keydown", handleKeyDown, checkIfWon, checkIfGameOver, setGameOver);
+  useEvent("keydown", handleKeyDown, checkIfWon);
 
   //adding numbers randomly
   const addNumber = (newGrid) => {
