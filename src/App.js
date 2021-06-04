@@ -79,6 +79,7 @@ function App() {
   },[])
 
   useEffect(() =>{
+    console.log('componentdid')
     const getLocalGrid = () => {  
 
         localStorage.setItem('datas',JSON.stringify(data))
@@ -86,8 +87,11 @@ function App() {
         localStorage.setItem('best',JSON.stringify(best))
         localStorage.setItem('continuegame',JSON.stringify(continueGame))
         localStorage.setItem('gameover',JSON.stringify(gameOver))
-
     };
+
+    let gameover = checkIfGameOver()
+    setGameOver(gameover)
+
     getLocalGrid();
   },[data])
 
@@ -118,7 +122,8 @@ function App() {
           } else if (b[slow] !== 0 && b[fast] !== 0) {
             if (b[slow] === b[fast]) {
               b[slow] = b[slow] + b[fast];
-              score += b[slow];
+              if(!check)
+                score += b[slow];
               b[fast] = 0;
               slow++;
               fast = slow + 1;
@@ -160,7 +165,8 @@ function App() {
         } else if (b[slow] !== 0 && b[fast] !== 0) {
           if (b[slow] === b[fast]) {
             b[slow] = b[slow] + b[fast];
-            score += b[slow];
+            if(!check)
+              score += b[slow];
             b[fast] = 0;
             slow--;
             fast = slow - 1;
@@ -201,7 +207,8 @@ function App() {
           } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
             if (b[slow][i] === b[fast][i]) {
               b[slow][i] = b[slow][i] + b[fast][i];
-              score += b[slow][i];
+              if(!check)
+                score += b[slow][i];
               b[fast][i] = 0;
               slow--;
               fast = slow - 1;
@@ -242,7 +249,8 @@ function App() {
           } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
             if (b[slow][i] === b[fast][i]) {
               b[slow][i] = b[slow][i] + b[fast][i];
-              score += b[slow][i];
+              if(!check)
+                score += b[slow][i];
               b[fast][i] = 0;
               slow++;
               fast = slow + 1;
@@ -261,16 +269,14 @@ function App() {
     if (JSON.stringify(oldGrid) !== JSON.stringify(newGrid)) {
       addNumber(newGrid);
       if (!check){
+        setData(newGrid);
         setScores(score);
         if(score > best)
           setBest(score)
       }
     }
-    if (check) {
+    if (check)
       return newGrid;
-    } else {
-      setData(newGrid);
-    }
   }
 
   //handling arrow keys
@@ -295,16 +301,12 @@ function App() {
       default:
         break;
       }
-
-      let gameover = checkIfGameOver()
-      if(gameover)
-           setGameOver(gameover)
   };
 
   const checkIfWon = () => {
 
     if(!continueGame){
-      let row = data.findIndex(row => row.find(num => num === 2048));
+      let row = data.findIndex(row => row.find(num => num === 32));
       if(row > -1)
        setGameWon(true)
     }
