@@ -306,7 +306,7 @@ function App() {
   const checkIfWon = () => {
 
     if(!continueGame){
-      let row = data.findIndex(row => row.find(num => num === 32));
+      let row = data.findIndex(row => row.find(num => num === 2048));
       if(row > -1)
        setGameWon(true)
     }
